@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Receipt upload — record-keeper</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="header">
+        <p class="eyebrow">record-keeper</p>
+        <h1>Expense receipt</h1>
+        <p class="lede">
+          Upload a photo of your receipt and enter the details below. Nothing is sent to a server; your browser keeps a local copy when you submit.
+        </p>
+      </header>
+
+      <main class="main">
+        <form id="receipt-form" class="form" novalidate>
+          <div class="form-grid">
+            <div class="field field--full">
+              <label for="receipt-photo">Receipt photo <span class="req">*</span></label>
+              <div class="upload-zone" id="upload-zone">
+                <input
+                  type="file"
+                  id="receipt-photo"
+                  name="receipt-photo"
+                  accept="image/*,.heic,.heif"
+                  required
+                  aria-describedby="photo-hint"
+                />
+                <div class="upload-zone__prompt">
+                  <span class="upload-zone__icon" aria-hidden="true">📎</span>
+                  <span>Drop an image here or <strong>browse</strong></span>
+                  <span class="upload-zone__formats" id="photo-hint">PNG, JPEG, WebP, or HEIC</span>
+                </div>
+                <div class="upload-zone__preview hidden" id="photo-preview-wrap">
+                  <img id="photo-preview" alt="Receipt preview" />
+                  <button type="button" class="btn btn--ghost btn--small" id="clear-photo">Remove</button>
+                </div>
+              </div>
+              <p class="field-error hidden" id="photo-error" role="alert"></p>
+            </div>
+
+            <div class="field">
+              <label for="expense-date">Date <span class="req">*</span></label>
+              <input type="date" id="expense-date" name="expense-date" required />
+              <p class="field-error hidden" id="date-error" role="alert"></p>
+            </div>
+
+            <div class="field">
+              <label for="vendor">Vendor <span class="req">*</span></label>
+              <input
+                type="text"
+                id="vendor"
+                name="vendor"
+                autocomplete="organization"
+                placeholder="e.g. Shell, Costco"
+                required
+                maxlength="200"
+              />
+              <p class="field-error hidden" id="vendor-error" role="alert"></p>
+            </div>
+
+            <div class="field">
+              <label for="amount">Amount <span class="req">*</span></label>
+              <div class="input-with-prefix">
+                <span class="input-prefix" aria-hidden="true">$</span>
+                <input
+                  type="number"
+                  id="amount"
+                  name="amount"
+                  inputmode="decimal"
+                  min="0"
+                  step="0.01"
+                  placeholder="0.00"
+                  required
+                />
+              </div>
+              <p class="field-error hidden" id="amount-error" role="alert"></p>
+            </div>
+
+            <div class="field">
+              <label for="car">Car <span class="req">*</span></label>
+              <input
+                type="text"
+                id="car"
+                name="car"
+                placeholder="Vehicle or fleet ID"
+                required
+                maxlength="120"
+              />
+              <p class="field-error hidden" id="car-error" role="alert"></p>
+            </div>
+
+            <div class="field">
+              <label for="customer">Customer <span class="req">*</span></label>
+              <input
+                type="text"
+                id="customer"
+                name="customer"
+                placeholder="Client or account name"
+                required
+                maxlength="200"
+              />
+              <p class="field-error hidden" id="customer-error" role="alert"></p>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn--primary" id="submit-btn">Save receipt</button>
+            <button type="reset" class="btn btn--ghost" id="reset-btn">Clear form</button>
+          </div>
+        </form>
+
+        <aside class="toast hidden" id="toast" role="status" aria-live="polite"></aside>
+
+        <section class="recent hidden" id="recent-section" aria-labelledby="recent-heading">
+          <h2 id="recent-heading">Saved in this browser</h2>
+          <ul class="recent-list" id="recent-list"></ul>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>record-keeper — local demo. Open this folder in any static server or double-click <code>index.html</code>.</p>
+      </footer>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
